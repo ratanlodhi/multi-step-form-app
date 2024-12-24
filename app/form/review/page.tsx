@@ -2,40 +2,32 @@
 
 import { FormLayout } from "@/components/form/form-layout";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { useFormStore } from "@/lib/store";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { useToast } from "@/hooks/use-toast"; // Correct import for useToast
+
 
 export default function Review() {
   const router = useRouter();
+  const {toast}  = useToast();
   const { formData, setFormData } = useFormStore();
-  const toast = useToast(); // Correct usage
 
+  
   useEffect(() => {
-    toast({
-      title: "Success.",
-      description: "Your action was successful.",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
     setFormData({ currentStep: 4 });
-  }, [setFormData, toast]);
+  }, [setFormData]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormData({ isSubmitting: true });
-
+    
     // Simulate API call
     setTimeout(() => {
       setFormData({ isSubmitting: false });
       toast({
         title: "Success!",
         description: "Your form has been submitted successfully.",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
       });
       router.push("/");
     }, 1500);
